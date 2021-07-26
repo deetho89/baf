@@ -25,7 +25,7 @@
   - name: extract aws cli
     unarchive:
       src: "{{ tmp_directory.path }}/awscli-exe-linux-{{ aws_cli.install_arch }}.zip"
-      dest: "{{ tmp_directory.path }}"
+      dest: "/home/ubuntu/tmp"
       remote_src: yes
     when: not aws_cli_stat_result.stat.exists
     tags:
@@ -43,9 +43,10 @@
 
   - name: install aws cli
     shell: |
-      cd "{{ tmp_directory.path }}"
+      cd /home/ubuntu/tmp
       ./aws/install -i {{ aws_cli.bin_directory }}/aws-cli -b {{ aws_cli.bin_directory }}
     when: not aws_cli_stat_result.stat.exists
+    become: true
     tags:
       - aws_cli
 
